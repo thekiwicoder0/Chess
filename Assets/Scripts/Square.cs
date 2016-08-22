@@ -24,12 +24,7 @@ public class Square : MonoBehaviour {
 	}
 
 	public void OnClick() {
-		var piece = GetComponentInChildren<Piece> ();
-		if (piece == null) {
-			game.SquareSelected (this);
-		} else {
-			game.PieceSelected (this, piece);
-		}
+		game.SquareSelected (this);
 	}
 
 	public bool IsEmpty() {

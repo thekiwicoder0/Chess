@@ -15,31 +15,20 @@ public class Game : MonoBehaviour {
 	}
 
 	public void SquareSelected(Square square){
-		if (selectedPiece != null) {
-			if (selectedPiece.GetComponent<MoveValidator> ().IsValidMove (board, square)) {
-				MovePiece (selectedPiece, square);
-				NextTurn ();
-			} else {
-				ClearSelection ();
-			}
+		// Selected a piece
+		if (!square.IsEmpty() && square.GetPiece().colour == playersTurn) {
+			SetSelection (square.GetPiece ());
+			return;
 		}
-	}
 
-	public void PieceSelected(Square square, Piece piece){
-		if (selectedPiece == null) {
-			if (piece.colour == playersTurn) {
-				SetSelection (piece);
-			}
-		} else {
-			if (selectedPiece.GetComponent<MoveValidator> ().IsValidMove (board, square)) {
-				MovePiece (selectedPiece, square);
-				NextTurn ();
-			} else if (piece.colour == playersTurn) {
-				SetSelection (piece);
-			} else {
-				ClearSelection ();
-			}
+		// Selected a destination
+		if (selectedPiece != null && selectedPiece.GetComponent<MoveValidator> ().IsValidMove (board, square)) {
+			MovePiece (selectedPiece, square);
+			NextTurn ();
+			return;
 		}
+			
+		ClearSelection();
 	}
 
 	void ClearSelection(){
@@ -55,7 +44,6 @@ public class Game : MonoBehaviour {
 
 	void NextTurn() {
 		ClearSelection ();
-
 		if (playersTurn == Piece.PieceColour.WHITE) {
 			playersTurn = Piece.PieceColour.BLACK;
 			turnIndicator.GetComponent<Text> ().text = "Black Moves";
@@ -66,9 +54,8 @@ public class Game : MonoBehaviour {
 	}
 
 	void MovePiece(Piece piece, Square square){
-		if (!square.IsEmpty ()) {
-			var take = square.GetPiece();
-			Destroy (take.gameObject);
+		if (!square.IsEmpty ()) {			
+			Destroy (square.GetPiece().gameObject);
 		}
 		piece.gameObject.transform.SetParent (square.transform);
 		piece.transform.localPosition = Vector3.zero;
