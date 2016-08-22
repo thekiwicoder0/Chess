@@ -19,4 +19,8 @@ public class Piece : MonoBehaviour {
 
 	public PieceType type;
 	public PieceColour colour;
+
+	public Square GetCurrentSquare(){
+		return gameObject.transform.parent.GetComponent<Square> ();
+	}
 }

@@ -3,13 +3,13 @@ using System.Collections;
 
 public class Board : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
+	void Start(){
+		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	public Square GetSquare(int row, int col){
+		int index = (row*8) + col;
+		var square = transform.GetChild (index);
+		return square.GetComponent<Square> ();
 	}
 }
